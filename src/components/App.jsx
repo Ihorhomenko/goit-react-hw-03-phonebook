@@ -9,6 +9,18 @@ class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+      try {
+        const savedContacts = localStorage.getItem('contacts');
+        return savedContacts === null ? undefined : this.setState({ contacts: JSON.parse(savedContacts) });
+      } catch (error) {
+        console.error("Get state error: ", error.message);
+      }
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem("contacts", JSON.stringify(this.state.contacts))
+  }
 
   handleSubmitForm = data => {
     this.setState({ contacts: [...this.state.contacts, data] })
